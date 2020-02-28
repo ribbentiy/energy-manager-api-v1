@@ -1,0 +1,89 @@
+{
+  "Product": {
+    "_id": {
+      "type": "ObjectId",
+      "unique": true,
+      "required": true
+    },
+    "title": "textIndex",
+    "nutrition": {
+      "calories": "Number",
+      "proteins": "Number",
+      "carbohydrates": "Number",
+      "fats": "Number"
+    },
+    "eanCode": "string",
+    "weight": "Number"
+  },
+  "Dish": {
+    "_id": {
+      "type": "ObjectId",
+      "unique": true,
+      "required": true
+    },
+    "title": {
+      "type": "textIndex",
+      "required": true
+    },
+    "description": "textIndex",
+    "nutrition": {
+      "calories": "Number",
+      "proteins": "Number",
+      "carbohydrates": "Number",
+      "fats": "Number"
+    },
+    "weight": "Number",
+    "creator": "user._id",
+    "products": [
+      {
+        "productId": "product._id",
+        "amount": "Number"
+      }
+    ]
+  },
+  "Fridge": {
+    "_id": {
+      "type": "ObjectId",
+      "unique": true,
+      "required": true
+    },
+    "contains": {
+      "products": [
+        {
+          "productId": "product._id",
+          "amount": "Number"
+        }
+      ],
+      "dishes": {
+        "dishId": "dish._id",
+        "amount": "Number"
+      }
+    },
+    "owner": "user._id"
+  },
+  "User": {
+    "login": "String",
+    "password": "String",
+    "isAdmin": {
+      "type": "Boolean",
+      "default": false
+    },
+    "firstName": "String",
+    "lastName": "String",
+    "nickName": "String",
+    "dateOfBirth": "Date",
+    "bodyWeight": "Number",
+    "fridge": "fridge._id",
+    "recipes": [
+      "dish._id"
+    ],
+    "recent": {
+      "products": [
+        "product._id"
+      ],
+      "dishes": [
+        "dish._id"
+      ]
+    }
+  }
+}
