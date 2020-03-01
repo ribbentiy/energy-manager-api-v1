@@ -1,11 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
-import { ProductInterface } from '../interfaces/product.interface';
+import * as mongoose from 'mongoose';
 
-
-const ProductSchema: Schema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
   title: {
     type: String,
-    text: true,
+    lowercase: true,
+    trim: true,
+
   },
   nutrition: {
     calories: Number,
@@ -17,5 +17,6 @@ const ProductSchema: Schema = new mongoose.Schema({
   weight: Number,
 });
 
+ProductSchema.index({ title: 'text' });
 
-export default mongoose.model<ProductInterface>('Product', ProductSchema);
+export { ProductSchema };

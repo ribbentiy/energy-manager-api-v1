@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
   imports: [ProductsModule, MongooseModule.forRoot('mongodb://localhost/test', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })],
 
 })
