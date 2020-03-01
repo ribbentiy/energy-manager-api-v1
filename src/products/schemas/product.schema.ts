@@ -5,7 +5,8 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     lowercase: true,
     trim: true,
-
+    required: true,
+    readonly: true,
   },
   nutrition: {
     calories: Number,
@@ -13,7 +14,10 @@ const ProductSchema = new mongoose.Schema({
     carbohydrates: Number,
     fats: Number,
   },
-  eanCode: String,
+  eanCode: {
+    type: String,
+    readonly: true,
+  },
   weight: Number,
 });
 

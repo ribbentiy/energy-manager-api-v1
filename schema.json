@@ -59,7 +59,7 @@
         "amount": "Number"
       }
     },
-    "owner": "user._id"
+    "users": "[user._id]"
   },
   "User": {
     "login": "String",
