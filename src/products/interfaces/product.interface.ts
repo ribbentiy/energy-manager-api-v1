@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 
-export interface Product extends Document {
+export interface IProduct extends Document {
   readonly title: string,
   nutrition: {
     readonly calories: number,

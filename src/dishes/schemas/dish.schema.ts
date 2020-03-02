@@ -6,12 +6,9 @@ const DishSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
     required: true,
-    readonly: true,
-    text: true,
   },
   description: {
     type: String,
-    text: true,
   },
   nutrition: {
     calories: Number,
@@ -33,6 +30,8 @@ const DishSchema = new mongoose.Schema({
       amount: Number,
     },
   ],
-});
+}, { timestamps: true });
+
+DishSchema.index({ title: 'text', description: 'text' });
 
 export { DishSchema };

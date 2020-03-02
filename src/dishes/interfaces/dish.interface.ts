@@ -2,10 +2,7 @@ import { Document, Types } from 'mongoose';
 
 export interface IDish extends Document {
   readonly _id: Types.ObjectId,
-  readonly title: {
-    type: string,
-    required: true,
-  },
+  readonly title: string,
   readonly description: string,
   readonly nutrition: {
     calories: number,
@@ -23,5 +20,7 @@ export interface IDish extends Document {
       product: Types.ObjectId,
       amount: number
     }
-  ]
+  ],
+  createdAt: Date,
+  updatedAt: Date
 }

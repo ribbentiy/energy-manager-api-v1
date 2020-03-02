@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { Product } from './interfaces/product.interface';
+import { IProduct } from './interfaces/product.interface';
 import { CreateProductDto } from './dto/create-product.dto';
 
 @Controller('products')
@@ -9,17 +9,17 @@ export class ProductsController {
   }
 
   @Get()
-  getAllProducts(): Promise<Product[]> {
+  getAllProducts(): Promise<IProduct[]> {
     return this.productsService.getAllProducts();
   }
 
   @Get('/:productId')
-  getProductById(@Param('productId') productId: string): Promise<Product> {
+  getProductById(@Param('productId') productId: string): Promise<IProduct> {
     return this.productsService.getProductById(productId);
   }
 
   @Post()
-  addProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
+  addProduct(@Body() createProductDto: CreateProductDto): Promise<IProduct> {
     return this.productsService.addProduct(createProductDto);
   }
 
