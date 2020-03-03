@@ -2,12 +2,14 @@ import * as mongoose from 'mongoose';
 import { ProductSchema } from '../../products/schemas/product.schema';
 import { UserSchema } from '../../users/schemas/user.schema';
 
-const DishSchema = new mongoose.Schema({
+const DishSchema = new mongoose.Schema({}, { timestamps: true });
+DishSchema.add({
   title: {
     type: String,
     lowercase: true,
     trim: true,
     required: true,
+    index: 'text',
   },
   description: {
     type: String,
@@ -21,19 +23,16 @@ const DishSchema = new mongoose.Schema({
   weight: Number,
   creator: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: UserSchema,
+    ref: 'UserSchema',
   },
   products: [
     {
-      product: {
-        type: ProductSchema,
-      },
+      product: ProductSchema,
       amount: Number,
       _id: false,
     },
   ],
-}, { timestamps: true });
+});
 
-DishSchema.index({ title: 'text', description: 'text' });
 
 export { DishSchema };

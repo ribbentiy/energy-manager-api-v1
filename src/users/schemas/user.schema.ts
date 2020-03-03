@@ -3,7 +3,8 @@ import { DishSchema } from '../../dishes/schemas/dish.schema';
 import { isEmail } from 'validator';
 import { ProductSchema } from '../../products/schemas/product.schema';
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema();
+UserSchema.add({
   //login: String,
   password: String,
   email: {
@@ -13,7 +14,7 @@ const UserSchema = new mongoose.Schema({
       val => isEmail(val),
       'Email should be valid email address',
     ],
-    index: true,
+    //index: true,
     unique: true,
   },
 
@@ -28,7 +29,7 @@ const UserSchema = new mongoose.Schema({
   bodyWeight: Number,
   recipes: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: DishSchema,
+    ref: 'DishSchema',
   }],
   // fridge: {
   //   type: mongoose.Schema.Types.ObjectId,

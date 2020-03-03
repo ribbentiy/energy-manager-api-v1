@@ -7,6 +7,7 @@ const ProductSchema = new mongoose.Schema({
     trim: true,
     required: true,
     readonly: true,
+    index: 'text',
   },
   nutrition: {
     calories: Number,
@@ -16,11 +17,10 @@ const ProductSchema = new mongoose.Schema({
   },
   eanCode: {
     type: String,
-    readonly: true,
+    //TODO need to validate ean
   },
   weight: Number,
 });
 
-ProductSchema.index({ title: 'text' });
 
 export { ProductSchema };
