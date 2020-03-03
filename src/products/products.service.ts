@@ -23,10 +23,11 @@ export class ProductsService {
   }
 
   async findProductsByTitle(searchString: string): Promise<IProduct[]> {
-    return await this.productModel.find({
+    return this.productModel.find({
       $text: {
         $search: searchString,
         $language: 'russian',
+
       },
     }, null, { limit: 10 });
   }

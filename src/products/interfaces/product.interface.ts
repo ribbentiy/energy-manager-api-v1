@@ -1,14 +1,10 @@
 import { Document } from 'mongoose';
+import { INutrition } from './nutrition.interface';
 
 
 export interface IProduct extends Document {
   readonly title: string,
-  nutrition: {
-    readonly calories: number,
-    readonly proteins: number,
-    readonly carbohydrates: number,
-    readonly fats: number
-  },
+  readonly nutrition: INutrition,
   readonly eanCode: string,
   readonly weight: number
 }

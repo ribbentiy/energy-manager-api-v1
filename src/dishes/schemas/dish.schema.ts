@@ -1,4 +1,6 @@
 import * as mongoose from 'mongoose';
+import { ProductSchema } from '../../products/schemas/product.schema';
+import { UserSchema } from '../../users/schemas/user.schema';
 
 const DishSchema = new mongoose.Schema({
   title: {
@@ -17,17 +19,17 @@ const DishSchema = new mongoose.Schema({
     fats: Number,
   },
   weight: Number,
-  // creator: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User'
-  // },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: UserSchema,
+  },
   products: [
     {
       product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        type: ProductSchema,
       },
       amount: Number,
+      _id: false,
     },
   ],
 }, { timestamps: true });

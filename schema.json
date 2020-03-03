@@ -70,7 +70,6 @@
     },
     "firstName": "String",
     "lastName": "String",
-    "nickName": "String",
     "dateOfBirth": "Date",
     "bodyWeight": "Number",
     "fridge": "fridge._id",

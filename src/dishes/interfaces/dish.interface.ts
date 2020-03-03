@@ -1,26 +1,14 @@
 import { Document, Types } from 'mongoose';
+import { INutrition } from '../../products/interfaces/nutrition.interface';
+import { IProduct } from '../../products/interfaces/product.interface';
 
 export interface IDish extends Document {
-  readonly _id: Types.ObjectId,
   readonly title: string,
   readonly description: string,
-  readonly nutrition: {
-    calories: number,
-    proteins: number,
-    carbohydrates: number,
-    fats: number,
-  },
+  readonly nutrition: INutrition,
   readonly weight: number,
-  // creator: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User'
-  // },
-  readonly products: [
-    {
-      product: Types.ObjectId,
-      amount: number
-    }
-  ],
-  createdAt: Date,
-  updatedAt: Date
+  readonly creator: Types.ObjectId,
+  readonly products: [IProduct],
+  readonly createdAt: Date,
+  readonly updatedAt: Date
 }

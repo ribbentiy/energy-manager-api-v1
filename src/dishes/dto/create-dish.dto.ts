@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { IProduct } from '../../products/interfaces/product.interface';
 
 export class CreateDishDto {
   readonly title: string;
@@ -10,7 +10,7 @@ export class CreateDishDto {
   // },
   products?: [
     {
-      product?: Types.ObjectId,
+      product?: IProduct,
       amount?: number
     }
   ];
