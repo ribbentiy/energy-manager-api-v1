@@ -41,6 +41,35 @@
       }
     ]
   },
+  "ProductWithDescriminator": {
+    "_id": {
+      "type": "ObjectId",
+      "unique": true,
+      "required": true
+    },
+    "title": "textIndex",
+    "nutrition": {
+      "calories": "Number",
+      "proteins": "Number",
+      "carbohydrates": "Number",
+      "fats": "Number"
+    },
+    "weight": "Number",
+    "descriminators": [
+      {
+        "kind": "Product",
+        "eanCode": "String"
+      },
+      {
+        "kind": "Recipe",
+        "description": "String",
+        "creator": "user._id",
+        "ingredients": [
+          "products._id"
+        ]
+      }
+    ]
+  },
   "Fridge": {
     "_id": {
       "type": "ObjectId",

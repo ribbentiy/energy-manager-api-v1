@@ -5,14 +5,14 @@ import { DishesModule } from './dishes/dishes.module';
 import { UsersModule } from './users/users.module';
 import { FridgeModule } from './fridge/fridge.module';
 
-//import { ProductWithDescModule } from './product-with-desc/product-with-desc.module';
+import { ProductWithDescModule } from './product-with-desc/product-with-desc.module';
 
 @Module({
   imports: [ProductsModule, MongooseModule.forRoot('mongodb://localhost/test', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-  }), DishesModule, UsersModule, FridgeModule],
+  }), DishesModule, UsersModule, FridgeModule, ProductWithDescModule],
 
 })
 export class AppModule {
