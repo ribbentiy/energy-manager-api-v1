@@ -1,6 +1,6 @@
-import { IProduct } from '../../products/interfaces/product.interface';
+import { IIngredient } from '../../interfaces/ingredient.interface';
 
-export class CreateDishDto {
+export class CreateRecipeDto {
   readonly title: string;
   readonly description: string;
   weight?: number;
@@ -10,7 +10,7 @@ export class CreateDishDto {
   // },
   products?: [
     {
-      product?: IProduct,
+      product?: IIngredient,
       amount?: number
     }
   ];

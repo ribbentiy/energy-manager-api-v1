@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
-import { DishSchema } from '../../dishes/schemas/dish.schema';
 import { isEmail } from 'validator';
-import { ProductSchema } from '../../products/schemas/product.schema';
+import { BaseProductSchema } from '../../product-with-desc/Schemas/baseProductSchema';
 
 const UserSchema = new mongoose.Schema();
 UserSchema.add({
@@ -36,8 +35,8 @@ UserSchema.add({
   //   ref: FridgeSchema
   // },
   //TODO Fridge Schema
-  recentDishes: [DishSchema],
-  recentProducts: [ProductSchema],
+  recentDishes: [BaseProductSchema],
+  recentProducts: [BaseProductSchema],
 });
 
 

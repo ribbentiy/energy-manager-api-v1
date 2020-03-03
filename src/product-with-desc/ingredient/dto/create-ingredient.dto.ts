@@ -1,4 +1,4 @@
-export class CreateProductDto {
+export class CreateIngredientDto {
   readonly title: string;
   nutrition: {
     readonly calories: number,

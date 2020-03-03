@@ -1,13 +1,12 @@
 import * as mongoose from 'mongoose';
 
-const ProductSchema = new mongoose.Schema({
+const BaseProductSchema = new mongoose.Schema({
   title: {
     type: String,
     lowercase: true,
     trim: true,
     required: true,
     readonly: true,
-    index: 'text',
   },
   nutrition: {
     calories: Number,
@@ -15,12 +14,9 @@ const ProductSchema = new mongoose.Schema({
     carbohydrates: Number,
     fats: Number,
   },
-  eanCode: {
-    type: String,
-    //TODO need to validate ean
-  },
   weight: Number,
-});
+}, { discriminatorKey: 'kind' });
 
+BaseProductSchema.index({ title: 'text' });
 
-export { ProductSchema };
+export { BaseProductSchema };
