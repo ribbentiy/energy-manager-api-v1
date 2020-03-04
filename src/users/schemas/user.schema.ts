@@ -30,11 +30,10 @@ UserSchema.add({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'DishSchema',
   }],
-  // fridge: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: FridgeSchema
-  // },
-  //TODO Fridge Schema
+  fridge: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'FridgeSchema',
+  },
   recentDishes: [BaseProductSchema],
   recentProducts: [BaseProductSchema],
 });
