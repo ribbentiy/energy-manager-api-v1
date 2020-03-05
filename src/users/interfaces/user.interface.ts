@@ -15,13 +15,16 @@ export interface IUser extends Document {
   // },
 
   */
-  readonly email: string,
-  readonly password: string,
-  readonly firstName: string,
-  readonly lastName: string,
-  readonly birthDate: Date,
-  readonly bodyWeight: number,
-  readonly recipes: [Types.ObjectId],
-  readonly recentDishes: [IRecipe],
-  readonly recentProducts: [IIngredient]
+  //TODO Add fridge to user interface
+
+  email: string,
+  password: string,
+  salt: string,
+  readonly firstName?: string,
+  readonly lastName?: string,
+  readonly birthDate?: Date,
+  readonly bodyWeight?: number,
+  readonly recipes?: [Types.ObjectId],
+  readonly recentDishes?: [IRecipe],
+  readonly recentProducts?: [IIngredient]
 }
