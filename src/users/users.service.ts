@@ -9,10 +9,15 @@ import { Model } from 'mongoose';
 import { IUser } from './interfaces/user.interface';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
 import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayloadInterface } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private readonly userModel: Model<IUser>) {
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<IUser>,
+    private jwtService: JwtService,
+  ) {
   }
 
   async signUp(authCredentialsDto: AuthCredentialDto): Promise<void> {
@@ -37,13 +42,15 @@ export class UsersService {
 
   }
 
-  async signIn(authCredentialsDto: AuthCredentialDto): Promise<IUser> {
+  async signIn(authCredentialsDto: AuthCredentialDto): Promise<{ accessToken: string }> {
     const result = await this.validateUser(authCredentialsDto);
-    console.log(result);
     if (!result) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    return result;
+
+    const payload: JwtPayloadInterface = { email: result.email };
+    const accessToken = await this.jwtService.sign(payload);
+    return { accessToken };
   }
 
   private async validateUser(authCredentialsDto: AuthCredentialDto): Promise<IUser> {
