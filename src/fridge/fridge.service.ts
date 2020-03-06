@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
@@ -33,11 +33,32 @@ export class FridgeService {
   }
 
   async updateFridgeUsers(user: IUser, id: mongoose.Types.ObjectId): Promise<IFridge> {
-    const fridge = await this.fridgeModel.findById(id);
-    if (!fridge.users.includes(user._id)) {
+    try {
+      if (user.fridge == id) {
+        return this.fridgeModel.findById(user.fridge);
+      }
+      const [oldFridge, fridge] = await Promise.all([
+        this.fridgeModel.findById(user.fridge),
+        this.fridgeModel.findById(id),
+      ]);
+      //TODO need to test out if no conflict in parallel request to db
+
+      // const oldFridge = await this.fridgeModel.findById(user.fridge);
+      // const fridge = await this.fridgeModel.findById(id);
+
       fridge.users.push(user._id);
+      oldFridge.users = oldFridge.users.filter((el) => el !== user._id);
+      if (oldFridge.users.length === 0) {
+        await this.deleteFridge(oldFridge._id);
+      }
+      await fridge.save();
+
+
+      return fridge;
+    } catch (e) {
+      console.log(e);
+      throw new InternalServerErrorException();
     }
-    return fridge.save();
   }
 
   //TODO need to implement addProducts and takeProducts to fridge
