@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -11,27 +12,38 @@ import { AuthCredentialDto } from './dto/auth-credential.dto';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayloadInterface } from './interfaces/jwt-payload.interface';
+import { FridgeService } from '../fridge/fridge.service';
+import { IFridge } from '../fridge/interface/fridge.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<IUser>,
     private jwtService: JwtService,
+    @Inject(FridgeService) private fridgeService: FridgeService,
   ) {
   }
 
-  async signUp(authCredentialsDto: AuthCredentialDto): Promise<void> {
+  async signUp(authCredentialsDto: AuthCredentialDto): Promise<{ accessToken: string }> {
     const { email, password } = authCredentialsDto;
-
-    const salt = await bcrypt.genSalt();
-    const newUser = new this.userModel();
-
-    newUser.email = email;
-    newUser.salt = salt;
-    newUser.password = await UsersService.hashPassword(password, salt);
-
     try {
+      const salt = await bcrypt.genSalt();
+      const newUser = new this.userModel();
+
+      newUser.email = email;
+      newUser.salt = salt;
+      let fridge: IFridge;
+      [newUser.password, fridge] = await Promise.all([
+        UsersService.hashPassword(password, salt),
+        this.fridgeService.createFridge(newUser),
+      ]);
+
+      newUser.fridge = fridge._id;
       await newUser.save();
+      const payload: JwtPayloadInterface = { email: newUser.email };
+      const accessToken = await this.jwtService.sign(payload);
+      return { accessToken };
+
     } catch (e) {
       if (e.code === 11000) {
         throw new ConflictException('User with this email is already exist');
@@ -52,6 +64,7 @@ export class UsersService {
     const accessToken = await this.jwtService.sign(payload);
     return { accessToken };
   }
+
 
   private async validateUser(authCredentialsDto: AuthCredentialDto): Promise<IUser> {
     const { email, password } = authCredentialsDto;
