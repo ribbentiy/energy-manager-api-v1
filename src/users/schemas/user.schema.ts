@@ -17,6 +17,8 @@ UserSchema.add({
   //   default: false,
   // },
   //TODO Need to implement roles in user
+  //TODO Need to implement confirmation of sharing fridge with someone
+
   firstName: String,
   lastName: String,
   birthDate: Date,

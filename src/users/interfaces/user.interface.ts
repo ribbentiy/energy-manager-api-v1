@@ -9,14 +9,8 @@ export interface IUser extends Document {
   //   type: Boolean,
   //   default: false,
   // },
-  // fridge: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: FridgeSchema
-  // },
 
   */
-  //TODO Add fridge to user interface
-
   email: string,
   password: string,
   salt: string,
@@ -25,7 +19,7 @@ export interface IUser extends Document {
   readonly lastName?: string,
   readonly birthDate?: Date,
   readonly bodyWeight?: number,
-  readonly recipes?: [Types.ObjectId],
-  readonly recentDishes?: [IRecipe],
-  readonly recentProducts?: [IIngredient]
+  readonly recipes?: Types.ObjectId[],
+  readonly recentDishes?: IRecipe[],
+  readonly recentProducts?: IIngredient[]
 }
