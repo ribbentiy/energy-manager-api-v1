@@ -1,12 +1,12 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from './schemas/user.schema';
-import { JwtModule } from '@nestjs/jwt';
+import { AuthSchema } from './schemas/auth.schema';
 import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
-import { FridgeModule } from '../fridge/fridge.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -17,19 +17,18 @@ import { FridgeModule } from '../fridge/fridge.module';
         expiresIn: 604800,
       },
     }),
-    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
-    forwardRef(() => FridgeModule),
+    MongooseModule.forFeature([{ name: 'Auth', schema: AuthSchema }]),
+    forwardRef(() => UserModule),
   ],
+  controllers: [AuthController],
   providers: [
+    AuthService,
     JwtStrategy,
-    UsersService,
-
   ],
-  controllers: [UsersController],
   exports: [
-    JwtStrategy,
     PassportModule,
+    JwtStrategy,
   ],
 })
-export class UsersModule {
+export class AuthModule {
 }

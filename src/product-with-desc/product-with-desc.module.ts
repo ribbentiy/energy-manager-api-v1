@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BaseProductSchema } from './Schemas/baseProductSchema';
+import { BaseProductSchema } from './schemas/baseProductSchema';
 import { RecipeService } from './recipe/recipe.service';
 import { RecipeController } from './recipe/recipe.controller';
 import { IngredientService } from './ingredient/ingredient.service';

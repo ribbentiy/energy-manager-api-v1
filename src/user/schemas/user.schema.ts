@@ -1,17 +1,9 @@
 import * as mongoose from 'mongoose';
-import { BaseProductSchema } from '../../product-with-desc/Schemas/baseProductSchema';
+import { BaseProductSchema } from '../../product-with-desc/schemas/baseProductSchema';
 
 const UserSchema = new mongoose.Schema();
 UserSchema.add({
   //login: String,
-  password: String,
-  salt: String,
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-
   // isAdmin: {
   //   type: Boolean,
   //   default: false,

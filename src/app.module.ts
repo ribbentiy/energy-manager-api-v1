@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 import { FridgeModule } from './fridge/fridge.module';
 import { ProductWithDescModule } from './product-with-desc/product-with-desc.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -11,9 +12,10 @@ import { ProductWithDescModule } from './product-with-desc/product-with-desc.mod
       useUnifiedTopology: true,
       useCreateIndex: true,
     }),
-    UsersModule,
+    UserModule,
     FridgeModule,
     ProductWithDescModule,
+    AuthModule,
   ],
 
 })

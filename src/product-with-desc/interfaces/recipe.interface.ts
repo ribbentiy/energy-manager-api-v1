@@ -7,8 +7,8 @@ export interface IRecipe extends Document {
   readonly description: string,
   readonly nutrition: INutrition,
   readonly weight: number,
-  readonly creator: Types.ObjectId,
+  creator: Types.ObjectId,
   readonly products: [IIngredient],
-  readonly createdAt: Date,
-  readonly updatedAt: Date
+  // readonly createdAt: Date,
+  // readonly updatedAt: Date
 }

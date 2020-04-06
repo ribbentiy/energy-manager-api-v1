@@ -1,15 +1,28 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { IRecipe } from '../interfaces/recipe.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { IBaseProduct } from '../interfaces/base-product.interface';
-import { RecipeSchema } from '../Schemas/recipe.schema';
+import { RecipeSchema } from '../schemas/recipe.schema';
+import { CreateRecipeDto } from './dto/create-recipe.dto';
+import { IAuth } from '../../auth/interfaces/auth.interface';
+import { UserService } from '../../user/user.service';
 
 @Injectable()
 export class RecipeService {
   private readonly recipeModel: Model<IRecipe>;
 
-  constructor(@InjectModel('BaseProductModel') baseProductModel: Model<IBaseProduct>) {
+  constructor(
+    @InjectModel('BaseProductModel') baseProductModel: Model<IBaseProduct>,
+    @Inject(forwardRef(() => UserService)) private userService: UserService,
+  ) {
     this.recipeModel = baseProductModel.discriminator('Recipe', RecipeSchema);
   }
 
@@ -23,6 +36,21 @@ export class RecipeService {
       throw new NotFoundException();
     }
     return recipe;
+  }
+
+  async createRecipe(createRecipeDto: CreateRecipeDto, auth: IAuth): Promise<IRecipe> {
+    const user = await this.userService.getUserById(auth.profile);
+    if (user) {
+      try {
+        const newRecipe = new this.recipeModel(createRecipeDto);
+        newRecipe.creator = user._id;
+        return await newRecipe.save();
+      } catch (error) {
+        throw new InternalServerErrorException();
+      }
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 
   //TODO Need to implement Create And Update func

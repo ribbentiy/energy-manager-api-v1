@@ -4,13 +4,13 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayloadInterface } from './interfaces/jwt-payload.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IUser } from './interfaces/user.interface';
+import { IAuth } from './interfaces/auth.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectModel('User')
-    private userModel: Model<IUser>,
+    @InjectModel('Auth')
+    private authModel: Model<IAuth>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -18,9 +18,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayloadInterface): Promise<IUser> {
+  async validate(payload: JwtPayloadInterface): Promise<IAuth> {
     const { email } = payload;
-    const user = await this.userModel.findOne({ email });
+    const user = await this.authModel.findOne({ email });
 
     if (!user) {
       throw new UnauthorizedException();

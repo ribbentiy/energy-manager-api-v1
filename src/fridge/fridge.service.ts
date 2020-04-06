@@ -1,19 +1,24 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { IFridge } from './interface/fridge.interface';
-import { IUser } from '../users/interfaces/user.interface';
+
 import { IBaseProduct } from '../product-with-desc/interfaces/base-product.interface';
+import { IAuth } from '../auth/interfaces/auth.interface';
+import { UserService } from '../user/user.service';
+import { IUser } from '../user/interfaces/user.interface';
 
 @Injectable()
 export class FridgeService {
   constructor(
     @InjectModel('Fridge') private readonly fridgeModel: Model<IFridge>,
+    @Inject(forwardRef(() => UserService)) private userService: UserService,
   ) {
   }
 
-  async getFridgeForUser(user: IUser): Promise<IFridge> {
+  async getFridgeForUser(auth: IAuth): Promise<IFridge> {
+    const user = await this.getUser(auth);
     const fridge = await this.fridgeModel.findById(user.fridge);
     if (!fridge) {
       throw new NotFoundException();
@@ -21,8 +26,8 @@ export class FridgeService {
     return fridge;
   }
 
-  async getContentForUser(user: IUser): Promise<[{ product: IBaseProduct, amount: number }]> {
-    const fridge = await this.getFridgeForUser(user);
+  async getContentForUser(auth: IAuth): Promise<[{ product: IBaseProduct, amount: number }]> {
+    const fridge = await this.getFridgeForUser(auth);
     return fridge.content;
   }
 
@@ -37,14 +42,9 @@ export class FridgeService {
       if (user.fridge == id) {
         return this.fridgeModel.findById(user.fridge);
       }
-      const [oldFridge, fridge] = await Promise.all([
-        this.fridgeModel.findById(user.fridge),
-        this.fridgeModel.findById(id),
-      ]);
-      //TODO need to test out if no conflict in parallel request to db
 
-      // const oldFridge = await this.fridgeModel.findById(user.fridge);
-      // const fridge = await this.fridgeModel.findById(id);
+      const oldFridge = await this.fridgeModel.findById(user.fridge);
+      const fridge = await this.fridgeModel.findById(id);
 
       fridge.users.push(user._id);
       oldFridge.users = oldFridge.users.filter((el) => el !== user._id);
@@ -71,4 +71,7 @@ export class FridgeService {
     }
   }
 
+  private async getUser(auth: IAuth): Promise<IUser> {
+    return await this.userService.getUserById(auth.profile);
+  }
 }

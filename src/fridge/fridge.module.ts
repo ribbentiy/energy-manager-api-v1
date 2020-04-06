@@ -3,12 +3,14 @@ import { FridgeService } from './fridge.service';
 import { FridgeController } from './fridge.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FridgeSchema } from './schemas/fridge.schema';
-import { UsersModule } from '../users/users.module';
+import { UserModule } from '../user/user.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Fridge', schema: FridgeSchema }]),
-    forwardRef(() => UsersModule),
+    forwardRef(() => UserModule),
+    forwardRef(() => AuthModule),
   ],
   providers: [FridgeService],
   controllers: [FridgeController],

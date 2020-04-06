@@ -11,9 +11,7 @@ export interface IUser extends Document {
   // },
 
   */
-  email: string,
-  password: string,
-  salt: string,
+
   fridge: Types.ObjectId,
   readonly firstName?: string,
   readonly lastName?: string,
