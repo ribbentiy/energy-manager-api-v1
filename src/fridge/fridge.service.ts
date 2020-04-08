@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { IFridge } from './interface/fridge.interface';
 
-import { IBaseProduct } from '../product-with-desc/interfaces/base-product.interface';
+import { IBaseProduct } from '../base-product/interfaces/base-product.interface';
 import { IAuth } from '../auth/interfaces/auth.interface';
 import { UserService } from '../user/user.service';
 import { IUser } from '../user/interfaces/user.interface';

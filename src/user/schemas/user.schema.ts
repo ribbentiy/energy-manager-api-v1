@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { BaseProductSchema } from '../../product-with-desc/schemas/baseProductSchema';
+import { BaseProductSchema } from '../../base-product/schemas/baseProductSchema';
 
 const UserSchema = new mongoose.Schema();
 UserSchema.add({

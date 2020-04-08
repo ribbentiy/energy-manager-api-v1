@@ -23,7 +23,7 @@ export class RecipeService {
     @InjectModel('BaseProductModel') baseProductModel: Model<IBaseProduct>,
     @Inject(forwardRef(() => UserService)) private userService: UserService,
   ) {
-    this.recipeModel = baseProductModel.discriminator('Recipe', RecipeSchema);
+    this.recipeModel = baseProductModel.discriminator('recipe', RecipeSchema);
   }
 
   async getAllRecipes(): Promise<IRecipe[]> {

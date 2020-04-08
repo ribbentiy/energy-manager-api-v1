@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
-import { IRecipe } from '../../product-with-desc/interfaces/recipe.interface';
-import { IIngredient } from '../../product-with-desc/interfaces/ingredient.interface';
+import { IRecipe } from '../../base-product/interfaces/recipe.interface';
+import { IIngredient } from '../../base-product/interfaces/ingredient.interface';
 
 export interface IUser extends Document {
   /*

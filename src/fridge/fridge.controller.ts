@@ -3,7 +3,7 @@ import { FridgeService } from './fridge.service';
 import { IFridge } from './interface/fridge.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
-import { IBaseProduct } from '../product-with-desc/interfaces/base-product.interface';
+import { IBaseProduct } from '../base-product/interfaces/base-product.interface';
 import { IAuth } from '../auth/interfaces/auth.interface';
 
 @Controller('fridge')

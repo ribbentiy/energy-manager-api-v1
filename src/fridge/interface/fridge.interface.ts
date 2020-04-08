@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { IBaseProduct } from '../../product-with-desc/interfaces/base-product.interface';
+import { IBaseProduct } from '../../base-product/interfaces/base-product.interface';
 
 export interface IFridge extends Document {
   users: Types.ObjectId[]
